@@ -1,5 +1,5 @@
 const API_KEY = process.env.NASA_API_KEY;
-const PAGE_SIZE = 3;
+export const PAGE_SIZE = 3;
 const START_DATE = new Date();
 
 function subDays(start: Date, days: number): Date {
@@ -14,16 +14,12 @@ function toISODate(date: Date): string {
 
 export function getKey(
   pageIndex: number,
-  previousPageData: PostInfo[]
+  previousPageData: PostInfo[] | null
 ): string | null {
   if (previousPageData && !previousPageData.length) return null;
 
-  console.log(API_KEY);
-  const endDate = subDays(
-    START_DATE,
-    pageIndex * PAGE_SIZE + (pageIndex === 0 ? 0 : 1)
-  );
-  const startDate = subDays(endDate, PAGE_SIZE);
+  const endDate = subDays(START_DATE, pageIndex * PAGE_SIZE);
+  const startDate = subDays(endDate, PAGE_SIZE - 1);
   return `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&start_date=${toISODate(
     startDate
   )}&end_date=${toISODate(endDate)}&thumbs=True`;
