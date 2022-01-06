@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import Image from "next/image";
 import { Heart } from "react-feather";
-import { ForwardedRef, forwardRef, useEffect, useState } from "react";
+import { ForwardedRef, forwardRef, useState } from "react";
 
 import { PostInfo } from "@/lib/api";
 
@@ -50,7 +50,7 @@ function ImageCard(
       ref={ref}
     >
       <Skeleton isLoaded={isLoaded && imageLoaded}>
-        <Box position="relative" height="lg" width="100%" flexGrow={1}>
+        <Box height="lg" width="100%" flexGrow={1} position="relative">
           {post ? (
             <Image
               src={post.imageUrl}
@@ -105,7 +105,7 @@ function ImageCard(
         </SkeletonText>
         <HStack mt="3" width="100%">
           <Skeleton isLoaded={isLoaded} width="20">
-            <Button size="sm" onClick={toggleShow}>
+            <Button size="xs" onClick={toggleShow}>
               Show {show ? "Less" : "More"}
             </Button>
           </Skeleton>
@@ -117,6 +117,7 @@ function ImageCard(
                 size="sm"
                 onClick={() => setLiked(!liked)}
                 colorScheme={liked ? "red" : "gray"}
+                variant={liked ? "solid" : "outline"}
               >
                 {liked ? "Liked" : "Like"}
               </Button>

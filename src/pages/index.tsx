@@ -34,7 +34,7 @@ const Home: NextPage<StaticProps> = ({ fallbackData }: StaticProps) => {
       <Box>
         <Box mb="6">
           <Heading mb="2">Spacestagram</Heading>
-          <Text>Powered by NASA&apos;s awesome API.</Text>
+          <Text>Your daily feed of astronomy photos.</Text>
         </Box>
         <SWRConfig
           value={{

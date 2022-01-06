@@ -1,4 +1,4 @@
-import { Button, OrderedList, Spinner, Text, VStack } from "@chakra-ui/react";
+import { Spinner, Text, VStack } from "@chakra-ui/react";
 import useSWRInfinite from "swr/infinite";
 
 import ImageCard from "@/components/ImageCard";
@@ -15,7 +15,7 @@ interface LikedEntires {
 
 export default function Feed() {
   const { fallbackData } = useSWRConfig();
-  const { data, error, size, setSize } = useSWRInfinite(getKey, postsFetcher, {
+  const { data, error, setSize } = useSWRInfinite(getKey, postsFetcher, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
     revalidateOnReconnect: true,
@@ -30,7 +30,7 @@ export default function Feed() {
     "spacestagram_liked"
   );
 
-  const { ref, inView, entry } = useInView({ threshold: 0 });
+  const { ref, inView } = useInView({ threshold: 0 });
 
   useEffect(() => {
     if (inView) {
