@@ -1,5 +1,5 @@
 const API_KEY = process.env.NASA_API_KEY;
-export const PAGE_SIZE = 3;
+export const PAGE_SIZE = 4;
 const START_DATE = new Date();
 
 function subDays(start: Date, days: number): Date {

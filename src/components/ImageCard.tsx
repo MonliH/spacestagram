@@ -1,16 +1,20 @@
-import { PostInfo } from "@/lib/api";
 import {
   Box,
   Button,
   Collapse,
   Flex,
   Heading,
+  HStack,
   Skeleton,
   SkeletonText,
+  Spacer,
   Text,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import { ForwardedRef, forwardRef, useState } from "react";
+import { Heart } from "react-feather";
+import { ForwardedRef, forwardRef, useEffect, useState } from "react";
+
+import { PostInfo } from "@/lib/api";
 
 function ImageCard(
   {
@@ -18,11 +22,13 @@ function ImageCard(
     priority = false,
     liked,
     setLiked,
+    hasMounted,
   }: {
     post: PostInfo | null;
     priority?: boolean;
     liked: boolean;
     setLiked: (value: boolean) => void;
+    hasMounted: boolean;
   },
   ref: ForwardedRef<HTMLDivElement>
 ) {
@@ -40,11 +46,10 @@ function ImageCard(
       minHeight="lg"
       overflow="hidden"
       direction="column"
+      shadow="lg"
       ref={ref}
     >
-      <Skeleton
-        isLoaded={isLoaded && (imageLoaded || typeof window === "undefined")}
-      >
+      <Skeleton isLoaded={isLoaded && imageLoaded}>
         <Box position="relative" height="lg" width="100%" flexGrow={1}>
           {post ? (
             <Image
@@ -57,6 +62,7 @@ function ImageCard(
               onLoadingComplete={() => {
                 setImageLoaded(true);
               }}
+              unoptimized
             />
           ) : (
             <Box width="xl" height="100%"></Box>
@@ -90,17 +96,33 @@ function ImageCard(
                 width: "100%",
                 height: "100%",
                 display: show ? "none" : "block",
+                pointerEvents: "none",
               }}
             >
               <Text fontSize="sm">{post && post.explanation}</Text>
             </Box>
           </Collapse>
         </SkeletonText>
-        <Skeleton isLoaded={isLoaded} mt="3" width="20">
-          <Button size="sm" onClick={toggleShow}>
-            Show {show ? "Less" : "More"}
-          </Button>
-        </Skeleton>
+        <HStack mt="3" width="100%">
+          <Skeleton isLoaded={isLoaded} width="20">
+            <Button size="sm" onClick={toggleShow}>
+              Show {show ? "Less" : "More"}
+            </Button>
+          </Skeleton>
+          <Spacer />
+          <Skeleton isLoaded={isLoaded} width="35">
+            {hasMounted && (
+              <Button
+                leftIcon={<Heart size={18} />}
+                size="sm"
+                onClick={() => setLiked(!liked)}
+                colorScheme={liked ? "red" : "gray"}
+              >
+                {liked ? "Liked" : "Like"}
+              </Button>
+            )}
+          </Skeleton>
+        </HStack>
       </Box>
     </Flex>
   );

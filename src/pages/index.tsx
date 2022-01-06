@@ -2,6 +2,7 @@ import Feed from "@/components/Feed";
 import { getKey, PAGE_SIZE, PostInfo, postsFetcher } from "@/lib/api";
 import { Box, Heading, Text, VStack } from "@chakra-ui/react";
 import type { GetStaticProps, NextPage } from "next";
+import { useEffect } from "react";
 import { SWRConfig, SWRConfiguration } from "swr";
 
 type Fallbacks = (Omit<PostInfo, "date"> & { date: string })[];
@@ -25,6 +26,9 @@ export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
 };
 
 const Home: NextPage<StaticProps> = ({ fallbackData }: StaticProps) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <VStack p={["5", "6", "20"]} pt={["10", "14", "20"]}>
       <Box>

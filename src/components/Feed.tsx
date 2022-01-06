@@ -6,7 +6,7 @@ import { getKey, PAGE_SIZE, PostInfo, postsFetcher } from "@/lib/api";
 import { useSWRConfig } from "swr";
 import usePersistedState from "@/lib/usePersistedState";
 import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const placeholder = new Array(PAGE_SIZE).fill(null);
 interface LikedEntires {
@@ -23,14 +23,14 @@ export default function Feed() {
     fallbackData,
   });
 
+  const flatData = data ? data.flat() : placeholder;
+  const dataWithPlaceholder = [...flatData, ...placeholder];
   const [liked, setLiked] = usePersistedState<LikedEntires>(
     {},
     "spacestagram_liked"
   );
 
-  const flatData = (data && data.flat()) || placeholder;
-
-  const { ref, inView, entry } = useInView({ threshold: 0.2 });
+  const { ref, inView, entry } = useInView({ threshold: 0 });
 
   useEffect(() => {
     if (inView) {
@@ -38,11 +38,17 @@ export default function Feed() {
     }
   }, [inView]);
 
+  const [hasMounted, setHasMounted] = useState(false);
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
   return (
     <VStack gap="4">
-      {flatData.map((post: PostInfo | null, idx: number) => (
+      {dataWithPlaceholder.map((post: PostInfo | null, idx: number) => (
         <ImageCard
           {...(idx === flatData.length - 1 ? { ref } : {})}
+          hasMounted={hasMounted}
           post={post}
           key={post?.date.toISOString() || idx}
           priority={idx < 2}
