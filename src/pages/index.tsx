@@ -24,6 +24,7 @@ import Feed from "@/components/Feed";
 import { getKeyInfinite, PostInfo, postsFetcher } from "@/lib/api";
 import { isSameDay } from "date-fns";
 import { sameRangeDays } from "@/lib/rangeUtil";
+import Head from "next/head";
 
 type Fallbacks = (Omit<PostInfo, "date"> & { date: string })[];
 

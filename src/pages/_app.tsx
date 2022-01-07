@@ -7,6 +7,7 @@ import type { AppProps } from "next/app";
 import { extendTheme, ChakraProvider } from "@chakra-ui/react";
 
 import { Global, css } from "@emotion/react";
+import Head from "next/head";
 
 /*
   This will hide the focus indicator if the element receives focus via the mouse,
@@ -33,6 +34,9 @@ const theme = extendTheme({
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
+      <Head>
+        <title>Spacetragram</title>
+      </Head>
       <Global styles={GlobalStyles} />
       <Component {...pageProps} />
     </ChakraProvider>
