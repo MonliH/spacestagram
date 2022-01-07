@@ -6,7 +6,7 @@ Try it at now at [**spacestagram-now.vercel.app**](https://spacestagram-now.verc
 
 ## Features
 
-This site was built with **mobile** in mind. Also:
+This site was built with **mobile** in mind. It implements all required features, and some additional ones:
 
 * Infinite scrolling
 * Filtering by date
