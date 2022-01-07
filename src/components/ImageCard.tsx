@@ -59,6 +59,7 @@ function ImageCard(
               objectFit="cover"
               priority={priority}
               sizes="750px"
+              quality={95}
               onLoadingComplete={() => {
                 setImageLoaded(true);
               }}
