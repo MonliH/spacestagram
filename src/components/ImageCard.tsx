@@ -62,7 +62,6 @@ function ImageCard(
               onLoadingComplete={() => {
                 setImageLoaded(true);
               }}
-              unoptimized
             />
           ) : (
             <Box width="xl" height="100%"></Box>

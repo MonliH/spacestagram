@@ -36,6 +36,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ChakraProvider theme={theme}>
       <Head>
         <title>Spacetragram</title>
+        <meta
+          name="description"
+          content="Browse the Astronomy Picture of the Day's on Spacetagram!"
+        />
       </Head>
       <Global styles={GlobalStyles} />
       <Component {...pageProps} />
