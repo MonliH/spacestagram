@@ -1,5 +1,8 @@
 import "@/styles/globals.css";
 import "focus-visible/dist/focus-visible";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
+
 import type { AppProps } from "next/app";
 import { extendTheme, ChakraProvider } from "@chakra-ui/react";
 

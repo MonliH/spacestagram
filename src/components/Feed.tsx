@@ -1,4 +1,4 @@
-import { Spinner, Text, VStack } from "@chakra-ui/react";
+import { CircularProgress, Spinner, Text, VStack } from "@chakra-ui/react";
 import useSWRInfinite from "swr/infinite";
 
 import ImageCard from "@/components/ImageCard";
@@ -13,30 +13,58 @@ interface LikedEntires {
   [key: string]: boolean;
 }
 
-export default function Feed() {
+export default function Feed({
+  start,
+  end,
+  validateChanged,
+}: {
+  start: Date | undefined;
+  end: Date | undefined;
+  validateChanged?: (validating: boolean) => void;
+}) {
   const { fallbackData } = useSWRConfig();
-  const { data, error, setSize } = useSWRInfinite(getKey, postsFetcher, {
-    revalidateIfStale: false,
-    revalidateOnFocus: false,
-    revalidateOnReconnect: true,
-    revalidateFirstPage: false,
-    fallbackData,
-  });
+  const { data, mutate, isValidating, error, size, setSize } = useSWRInfinite(
+    getKey(start, end),
+    postsFetcher,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: true,
+      revalidateFirstPage: false,
+      fallbackData,
+    }
+  );
 
   const flatData = data ? data.flat() : placeholder;
-  const dataWithPlaceholder = [...flatData, ...placeholder];
   const [liked, setLiked] = usePersistedState<LikedEntires>(
     {},
     "spacestagram_liked"
   );
 
   const { ref, inView } = useInView({ threshold: 0 });
+  const isLoadingInitialData = !data && !error;
+  const isLoadingMore =
+    isLoadingInitialData ||
+    (size > 0 && data && typeof data[size - 1] === "undefined");
+  const done = getKey(start, end)(size - 1, null) === null;
+  const dataWithPlaceholder =
+    end && done ? flatData : [...flatData, ...placeholder];
 
   useEffect(() => {
-    if (inView) {
+    if (validateChanged) {
+      validateChanged(isValidating);
+    }
+  }, [isValidating]);
+
+  useEffect(() => {
+    if (inView && !isLoadingMore && !done) {
       setSize((original) => original + 1);
     }
-  }, [inView]);
+  }, [inView, isLoadingMore]);
+
+  useEffect(() => {
+    mutate();
+  }, [start, end]);
 
   const [hasMounted, setHasMounted] = useState(false);
   useEffect(() => {
@@ -60,7 +88,7 @@ export default function Feed() {
         />
       ))}
       {error && <Text color="red">Failed to load more posts.</Text>}
-      <Spinner />
+      {isLoadingMore && !done && <Spinner />}
     </VStack>
   );
 }

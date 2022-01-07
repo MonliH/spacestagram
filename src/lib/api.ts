@@ -1,29 +1,35 @@
+import { addDays, max, subDays } from "date-fns";
+
 const API_KEY = process.env.NASA_API_KEY;
 export const PAGE_SIZE = 4;
 const START_DATE = new Date();
-
-function subDays(start: Date, days: number): Date {
-  const result = new Date(start);
-  result.setDate(result.getDate() - days);
-  return result;
-}
 
 function toISODate(date: Date): string {
   return date.toISOString().split("T")[0];
 }
 
-export function getKey(
-  pageIndex: number,
-  previousPageData: PostInfo[] | null
-): string | null {
-  if (previousPageData && !previousPageData.length) return null;
+export const getKey =
+  (startFilter: Date | undefined, endFilter: Date | undefined) =>
+  (pageIndex: number, previousPageData: PostInfo[] | null): string | null => {
+    if (previousPageData && !previousPageData.length) return null;
 
-  const endDate = subDays(START_DATE, pageIndex * PAGE_SIZE);
-  const startDate = subDays(endDate, PAGE_SIZE - 1);
-  return `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&start_date=${toISODate(
-    startDate
-  )}&end_date=${toISODate(endDate)}&thumbs=True`;
-}
+    const newStart = startFilter ? addDays(startFilter, 1) : undefined;
+    const endDate = subDays(
+      endFilter ? addDays(endFilter, 1) : START_DATE,
+      pageIndex * PAGE_SIZE
+    );
+    const originalStartDate = subDays(endDate, PAGE_SIZE - 1);
+    const startDate = newStart
+      ? max([newStart, originalStartDate])
+      : originalStartDate;
+    if (startDate > endDate) return null;
+
+    return `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&start_date=${toISODate(
+      startDate
+    )}&end_date=${toISODate(endDate)}&thumbs=True`;
+  };
+
+export const getKeyInfinite = getKey(undefined, undefined);
 
 /**
  * A post from the Image of the Day NASA API
