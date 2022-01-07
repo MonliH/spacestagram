@@ -51,7 +51,6 @@ export default function Feed({
     end && done ? flatData : [...flatData, ...placeholder];
 
   useEffect(() => {
-    console.log(size, isValidating);
     if (validateChanged) {
       validateChanged(isValidating);
     }

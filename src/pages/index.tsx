@@ -67,8 +67,8 @@ const Home: NextPage<StaticProps> = ({ fallbackData }: StaticProps) => {
   return (
     <VStack p={["5", "6", "20"]} pt={["10", "14", "20"]}>
       <Box>
-        <HStack mb="6">
-          <Box>
+        <HStack mb="6" flexWrap="wrap" gap="3">
+          <Box mt="3">
             <Heading mb="2">Spacestagram</Heading>
             <Text>
               {range && range.startDate ? (
@@ -86,8 +86,12 @@ const Home: NextPage<StaticProps> = ({ fallbackData }: StaticProps) => {
               )}
             </Text>
           </Box>
-          <Spacer />
-          <HStack>
+          <Spacer
+            flexGrow={[0, 1]}
+            marginInlineStart={0}
+            display={["none", "block"]}
+          />
+          <HStack marginInlineStart={0}>
             {validating && <Spinner size="sm" />}
             <Popover>
               <PopoverTrigger>
@@ -123,6 +127,7 @@ const Home: NextPage<StaticProps> = ({ fallbackData }: StaticProps) => {
                   <DateRange
                     moveRangeOnFirstSelection={false}
                     maxDate={new Date()}
+                    minDate={new Date(1995, 6, 16)}
                     ranges={[tempRange]}
                     onChange={(item) => setTempRange(item.selection)}
                     editableDateInputs={true}

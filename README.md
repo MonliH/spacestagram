@@ -1,12 +1,10 @@
-## Spacetagram
+# Spacetagram
 
 This Github repository contains the code for the 2022 frontend Shopify summer internship challenge.
 
 Try it at now at [**spacestagram-now.vercel.app**](https://spacestagram-now.vercel.app/).
 
-<br />
-
-### Features
+## Features
 
 This site was built with **mobile** in mind. Also:
 
@@ -17,7 +15,7 @@ This site was built with **mobile** in mind. Also:
 
 <br />
 
-### Built with
+## Built with
 
 <a href="https://www.typescriptlang.org/"><img alt="Typescript" src="./assets/typescriptLogo.png" width="80" height="80"/></a>
 &nbsp;&nbsp;

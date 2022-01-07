@@ -42,7 +42,7 @@ function ImageCard(
     <Flex
       borderWidth="1px"
       borderRadius="lg"
-      maxW="xl"
+      w={["100%", "100%", "xl"]}
       minHeight="lg"
       overflow="hidden"
       direction="column"
@@ -58,13 +58,13 @@ function ImageCard(
               layout="fill"
               objectFit="cover"
               priority={priority}
-              sizes="px"
+              sizes="750px"
               onLoadingComplete={() => {
                 setImageLoaded(true);
               }}
             />
           ) : (
-            <Box width="xl" height="100%"></Box>
+            <Box w="100%" height="100%"></Box>
           )}
         </Box>
       </Skeleton>
