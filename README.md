@@ -1,14 +1,14 @@
-# Spacetagram
+# Spacestagram
 
 This Github repository contains the code for the 2022 frontend Shopify summer internship challenge.
 
-Try it at now at [**spacestagram-now.vercel.app**](https://spacestagram-now.vercel.app/).
+Try it now at [**spacestagram-now.vercel.app**](https://spacestagram-now.vercel.app/).
 
 <br />
 
 ## Features
 
-This site was built with **mobile** in mind. It implements all required features, and some additional ones:
+This site works well on **mobile**. It implements all required features, and some additional ones:
 
 * Infinite scrolling
 * Filtering by date
